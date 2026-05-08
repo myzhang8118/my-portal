@@ -1,8 +1,9 @@
 <template>
   <div class="login-page">
     <div class="login-card card">
-      <h2>⚙️ 管理后台</h2>
-      <p class="login-tip">请输入管理员密码</p>
+      <p class="login-kicker mono">AUTH</p>
+      <h2 class="login-title">管理后台</h2>
+      <p class="login-tip">使用管理员密码登录</p>
 
       <form @submit.prevent="handleLogin">
         <div class="form-group">
@@ -10,13 +11,13 @@
             v-model="password"
             type="password"
             class="form-input"
-            placeholder="输入密码"
+            placeholder="密码"
             autofocus
           />
         </div>
         <div v-if="error" class="message message-error">{{ error }}</div>
         <button class="btn btn-primary login-btn" type="submit" :disabled="loading">
-          {{ loading ? '登录中...' : '登录' }}
+          {{ loading ? '登录中…' : '登录' }}
         </button>
       </form>
 
@@ -58,6 +59,15 @@ async function handleLogin() {
 </script>
 
 <style scoped>
+.mono {
+  font-family: var(--font-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-light);
+}
+
 .login-page {
   min-height: 100vh;
   display: flex;
@@ -70,11 +80,17 @@ async function handleLogin() {
   width: 100%;
   max-width: 380px;
   text-align: center;
-  padding: 40px 30px;
+  padding: 36px 28px;
 }
 
-.login-card h2 {
+.login-kicker {
+  margin-bottom: 10px;
+}
+
+.login-title {
   font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
   margin-bottom: 8px;
 }
 
@@ -87,17 +103,20 @@ async function handleLogin() {
 .login-btn {
   width: 100%;
   padding: 12px;
-  font-size: 16px;
+  font-size: 15px;
 }
 
 .back-link {
   display: inline-block;
-  margin-top: 20px;
+  margin-top: 22px;
   color: var(--text-light);
-  font-size: 14px;
+  font-size: 13px;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
 }
 
 .back-link:hover {
-  color: var(--primary);
+  color: var(--accent);
 }
 </style>
