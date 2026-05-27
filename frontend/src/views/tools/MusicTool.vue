@@ -3,7 +3,10 @@
     <header class="sub-header">
       <div class="container sub-header__inner">
         <router-link to="/tools" class="sub-header__back mono">← LAB</router-link>
-        <span class="sub-header__title mono">MUSIC</span>
+        <div class="header-right">
+          <span class="sub-header__title mono">MUSIC</span>
+          <ThemeToggle />
+        </div>
       </div>
     </header>
 
@@ -15,6 +18,7 @@
         </div>
         <router-link to="/tools" class="btn btn-outline btn-sm">返回工作台</router-link>
       </div>
+      <div class="neon-strip" aria-hidden="true" />
 
       <div class="music-card card">
         <p class="music-desc">用一两句话描述当下状态，系统会尝试匹配一首合适的曲目。</p>
@@ -95,6 +99,7 @@
 <script setup>
 import { ref } from 'vue'
 import { musicRecommend } from '../../api/index.js'
+import ThemeToggle from '../../components/ThemeToggle.vue'
 
 const mood = ref('')
 const loading = ref(false)
@@ -134,17 +139,25 @@ async function recommend() {
 }
 
 .sub-header {
-  border-bottom: 1px solid var(--border);
-  background: rgba(7, 8, 11, 0.72);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(5, 8, 18, 0.62);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+:root[data-theme='light'] .sub-header {
+  background: color-mix(in srgb, var(--bg-card-solid) 78%, transparent);
+  border-bottom-color: rgba(20, 27, 47, 0.12);
 }
 
 .sub-header__inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 48px;
+  gap: 12px;
+  min-height: 48px;
+  flex-wrap: wrap;
+  padding: 6px 0;
 }
 
 .sub-header__back {
@@ -168,6 +181,15 @@ async function recommend() {
   flex: 1;
 }
 
+.neon-strip {
+  height: 2px;
+  width: min(260px, 55vw);
+  margin: -2px 0 18px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--cyber-cyan), var(--cyber-pink), transparent);
+  box-shadow: 0 0 14px color-mix(in srgb, var(--cyber-cyan) 35%, transparent);
+}
+
 .page-head {
   display: flex;
   align-items: flex-end;
@@ -179,22 +201,30 @@ async function recommend() {
 }
 
 .page-head__h {
-  font-size: clamp(1.35rem, 3.5vw, 1.6rem);
-  font-weight: 700;
-  letter-spacing: -0.02em;
+  font-family: var(--font-display);
+  font-size: clamp(1.45rem, 3.8vw, 1.85rem);
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-shadow:
+    0 0 18px color-mix(in srgb, var(--cyber-cyan) 22%, transparent),
+    0 0 26px color-mix(in srgb, var(--cyber-pink) 14%, transparent);
 }
 
 .page-head__sub {
-  margin-top: 6px;
+  margin-top: 8px;
   font-size: 10px;
   color: var(--text-light);
-  font-weight: 600;
+  font-weight: 700;
+  letter-spacing: 0.12em;
 }
 
 .music-card {
-  max-width: 640px;
+  max-width: 760px;
   margin: 0 auto;
   padding: 22px 20px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-left: 3px solid color-mix(in srgb, var(--cyber-cyan) 68%, transparent);
 }
 
 .music-desc {

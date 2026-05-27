@@ -1,12 +1,16 @@
 <template>
   <div class="settings-page">
-    <h2>系统配置</h2>
+    <div class="module-head">
+      <h2>系统配置</h2>
+      <p class="module-head__meta mono">SETTINGS / RUNTIME_CONFIG</p>
+    </div>
+    <div class="neon-strip" aria-hidden="true" />
 
     <div v-if="message" :class="['message', messageType === 'success' ? 'message-success' : 'message-error']">
       {{ message }}
     </div>
 
-    <div v-for="(group, groupKey) in settings" :key="groupKey" class="settings-group card">
+    <div v-for="(group, groupKey) in settings" :key="groupKey" class="settings-group card module-panel">
       <h3>{{ group.label }}</h3>
       <div v-for="item in group.items" :key="item.key" class="form-group">
         <label>{{ item.label }}</label>
@@ -83,8 +87,36 @@ function showMsg(msg, type) {
 </script>
 
 <style scoped>
-.settings-page h2 {
-  margin-bottom: 20px;
+.module-head {
+  margin-bottom: 8px;
+}
+
+.module-head h2 {
+  margin-bottom: 4px;
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 2.8vw, 1.45rem);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.module-head__meta {
+  color: var(--text-light);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+}
+
+.neon-strip {
+  height: 2px;
+  width: min(260px, 55vw);
+  margin: 10px 0 18px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--cyber-cyan), var(--cyber-pink), transparent);
+  box-shadow: 0 0 14px color-mix(in srgb, var(--cyber-cyan) 35%, transparent);
+}
+
+.module-panel {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-left: 3px solid color-mix(in srgb, var(--cyber-cyan) 68%, transparent);
 }
 
 .settings-group {

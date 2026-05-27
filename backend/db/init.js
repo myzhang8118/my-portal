@@ -14,13 +14,80 @@ function initDatabase() {
     )
   `);
 
+  // 首页展示字段（迁移旧库）
+  const aboutHomeMigrations = [
+    {
+      col: 'home_hero_line1',
+      sql: "ALTER TABLE about ADD COLUMN home_hero_line1 TEXT DEFAULT '冷静表达，'"
+    },
+    {
+      col: 'home_hero_line2',
+      sql: "ALTER TABLE about ADD COLUMN home_hero_line2 TEXT DEFAULT '锋利执行。'"
+    },
+    {
+      col: 'home_intro',
+      sql: "ALTER TABLE about ADD COLUMN home_intro TEXT DEFAULT '你好，我是{{name}} / YOUR NAME —— 使用右上角太阳与月亮开关在同一页切换昼夜主题。'"
+    },
+    {
+      col: 'home_btn_projects',
+      sql: "ALTER TABLE about ADD COLUMN home_btn_projects TEXT DEFAULT '进入项目矩阵 / PROJECTS'"
+    },
+    {
+      col: 'home_btn_about',
+      sql: "ALTER TABLE about ADD COLUMN home_btn_about TEXT DEFAULT '查看完整介绍 / ABOUT'"
+    },
+    {
+      col: 'home_heading_projects',
+      sql: "ALTER TABLE about ADD COLUMN home_heading_projects TEXT DEFAULT '我的项目 / PROJECTS'"
+    },
+    {
+      col: 'home_heading_about',
+      sql: "ALTER TABLE about ADD COLUMN home_heading_about TEXT DEFAULT '关于我 / ABOUT ME'"
+    },
+    {
+      col: 'home_heading_social',
+      sql: "ALTER TABLE about ADD COLUMN home_heading_social TEXT DEFAULT '社交链接 / SOCIAL'"
+    },
+    {
+      col: 'home_social',
+      sql: "ALTER TABLE about ADD COLUMN home_social TEXT DEFAULT '[]'"
+    }
+  ];
+
+  for (const { col, sql } of aboutHomeMigrations) {
+    try {
+      db.prepare(`SELECT ${col} FROM about LIMIT 1`).get();
+    } catch (e) {
+      db.exec(sql);
+      console.log(`Migrated about: added column ${col}`);
+    }
+  }
+
   // 插入默认数据（如果不存在）
   const aboutExists = db.prepare('SELECT COUNT(*) as count FROM about').get();
   if (aboutExists.count === 0) {
+    const defaultHomeSocial = JSON.stringify([
+      { label: 'GitHub / 开源主页', url: 'https://github.com' },
+      { label: '小红书 / 内容更新', url: 'https://www.xiaohongshu.com' },
+      { label: '微信 / 商务合作', url: '#' },
+      { label: '邮箱 / Email', url: 'mailto:hello@example.com' }
+    ]);
     db.prepare(`
-      INSERT INTO about (id, name, avatar, title, content)
-      VALUES (1, '你的名字', '', '一句话介绍自己', '# 你好\n\n欢迎来到我的个人网站。\n\n请在管理后台编辑这段内容。')
-    `).run();
+      INSERT INTO about (
+        id, name, avatar, title, content,
+        home_hero_line1, home_hero_line2, home_intro,
+        home_btn_projects, home_btn_about,
+        home_heading_projects, home_heading_about, home_heading_social,
+        home_social
+      ) VALUES (
+        1, '你的名字', '', '一句话介绍自己', '# 你好\n\n欢迎来到我的个人网站。\n\n请在管理后台编辑这段内容。',
+        '冷静表达，', '锋利执行。',
+        '你好，我是{{name}} / YOUR NAME —— 使用右上角太阳与月亮开关在同一页切换昼夜主题。',
+        '进入项目矩阵 / PROJECTS', '查看完整介绍 / ABOUT',
+        '我的项目 / PROJECTS', '关于我 / ABOUT ME', '社交链接 / SOCIAL',
+        ?
+      )
+    `).run(defaultHomeSocial);
   }
 
   // 创建 projects 表（带 config 字段）
@@ -42,7 +109,7 @@ function initDatabase() {
 
   // 检查是否需要添加 config 字段（兼容旧数据库）
   try {
-    db.prepare("SELECT config FROM projects LIMIT 1").get();
+    db.prepare('SELECT config FROM projects LIMIT 1').get();
   } catch (e) {
     db.exec(`ALTER TABLE projects ADD COLUMN config TEXT DEFAULT '{}'`);
     console.log('Added config column to projects table');
@@ -102,7 +169,9 @@ function initDatabase() {
       { key: 'site_icp', value: '', label: 'ICP 备案号', type: 'text', options: '', group_name: 'general', sort_order: 3 }
     ];
 
-    const insert = db.prepare('INSERT INTO settings (key, value, label, type, options, group_name, sort_order) VALUES (?, ?, ?, ?, ?, ?, ?)');
+    const insert = db.prepare(
+      'INSERT INTO settings (key, value, label, type, options, group_name, sort_order) VALUES (?, ?, ?, ?, ?, ?, ?)'
+    );
     for (const s of defaultSettings) {
       insert.run(s.key, s.value, s.label, s.type, s.options, s.group_name, s.sort_order);
     }

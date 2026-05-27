@@ -1,9 +1,16 @@
 <template>
   <div class="login-page">
+    <header class="login-header">
+      <div class="container login-header__inner">
+        <router-link to="/" class="login-back mono">← PORTAL</router-link>
+        <ThemeToggle />
+      </div>
+    </header>
     <div class="login-card card">
       <p class="login-kicker mono">AUTH</p>
       <h2 class="login-title">管理后台</h2>
       <p class="login-tip">使用管理员密码登录</p>
+      <div class="neon-strip" aria-hidden="true" />
 
       <form @submit.prevent="handleLogin">
         <div class="form-group">
@@ -31,6 +38,7 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { login } from '../../api/index.js'
 import { setToken } from '../../utils/auth.js'
+import ThemeToggle from '../../components/ThemeToggle.vue'
 
 const router = useRouter()
 const password = ref('')
@@ -74,6 +82,39 @@ async function handleLogin() {
   align-items: center;
   justify-content: center;
   padding: 20px;
+  position: relative;
+}
+
+.login-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(5, 8, 18, 0.62);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+:root[data-theme='light'] .login-header {
+  background: color-mix(in srgb, var(--bg-card-solid) 78%, transparent);
+  border-bottom-color: rgba(20, 27, 47, 0.12);
+}
+
+.login-header__inner {
+  min-height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.login-back {
+  color: var(--text-secondary);
+  font-size: 11px;
+}
+
+.login-back:hover {
+  color: var(--accent);
 }
 
 .login-card {
@@ -81,6 +122,10 @@ async function handleLogin() {
   max-width: 380px;
   text-align: center;
   padding: 36px 28px;
+  border: 1px solid color-mix(in srgb, var(--cyber-cyan) 22%, var(--border));
+  box-shadow:
+    0 0 40px color-mix(in srgb, var(--cyber-violet) 12%, transparent),
+    inset 0 0 28px color-mix(in srgb, var(--cyber-cyan) 6%, transparent);
 }
 
 .login-kicker {
@@ -88,16 +133,31 @@ async function handleLogin() {
 }
 
 .login-title {
-  font-size: 22px;
-  font-weight: 700;
-  letter-spacing: -0.02em;
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 4vw, 1.65rem);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   margin-bottom: 8px;
+  background: linear-gradient(90deg, var(--cyber-cyan), var(--cyber-pink), var(--cyber-violet));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 .login-tip {
   color: var(--text-secondary);
   font-size: 14px;
   margin-bottom: 24px;
+}
+
+.neon-strip {
+  height: 2px;
+  width: min(220px, 60vw);
+  margin: 0 auto 18px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--cyber-cyan), var(--cyber-pink), transparent);
+  box-shadow: 0 0 14px color-mix(in srgb, var(--cyber-cyan) 35%, transparent);
 }
 
 .login-btn {

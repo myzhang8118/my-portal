@@ -1,15 +1,19 @@
 <template>
   <div class="project-manage">
-    <div class="page-title-row">
-      <h2>项目管理</h2>
+    <div class="module-head">
+      <div>
+        <h2>项目管理</h2>
+        <p class="module-head__meta mono">PROJECTS / ASSET_MATRIX</p>
+      </div>
       <button class="btn btn-primary btn-sm" @click="openAdd">+ 添加项目</button>
     </div>
+    <div class="neon-strip" aria-hidden="true" />
 
     <div v-if="message" :class="['message', messageType === 'success' ? 'message-success' : 'message-error']">
       {{ message }}
     </div>
 
-    <div class="project-list">
+    <div class="project-list module-panel card">
       <div v-for="project in projects" :key="project.id" class="project-item card">
         <div class="project-item-header">
           <span class="project-item-icon">{{ project.icon }}</span>
@@ -31,7 +35,7 @@
 
     <!-- 编辑/添加弹窗 -->
     <div v-if="showModal" class="modal-overlay" @click.self="showModal = false">
-      <div class="modal card">
+      <div class="modal card module-panel">
         <h3>{{ isEdit ? '编辑项目' : '添加项目' }}</h3>
 
         <div class="form-group">
@@ -250,6 +254,42 @@ onMounted(loadProjects)
 </script>
 
 <style scoped>
+.module-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.module-head h2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 2.8vw, 1.45rem);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.module-head__meta {
+  margin-top: 4px;
+  color: var(--text-light);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+}
+
+.neon-strip {
+  height: 2px;
+  width: min(260px, 55vw);
+  margin: 10px 0 18px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--cyber-cyan), var(--cyber-pink), transparent);
+  box-shadow: 0 0 14px color-mix(in srgb, var(--cyber-cyan) 35%, transparent);
+}
+
+.module-panel {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-left: 3px solid color-mix(in srgb, var(--cyber-cyan) 68%, transparent);
+}
+
 .page-title-row {
   display: flex;
   align-items: center;
@@ -261,6 +301,7 @@ onMounted(loadProjects)
   display: flex;
   flex-direction: column;
   gap: 12px;
+  padding: 16px;
 }
 
 .project-item-header {
@@ -282,6 +323,8 @@ onMounted(loadProjects)
 .project-item-info h3 {
   font-size: 16px;
   margin-bottom: 4px;
+  font-family: var(--font-display);
+  letter-spacing: 0.04em;
 }
 
 .project-item-info p {
@@ -305,7 +348,7 @@ onMounted(loadProjects)
 .modal-overlay {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.4);
+  background: rgba(0, 0, 0, 0.55);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -315,7 +358,7 @@ onMounted(loadProjects)
 
 .modal {
   width: 100%;
-  max-width: 500px;
+  max-width: 580px;
   max-height: 90vh;
   overflow-y: auto;
 }
