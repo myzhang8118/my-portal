@@ -17,3 +17,7 @@ data/uploads/
 # misc
 *.log
 .DS_Store
+
+# runtime database
+backend/db/*.db
+backend/db/*.db-*
