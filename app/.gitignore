@@ -1,0 +1,23 @@
+# dependencies
+**/node_modules/
+
+# build output (rollback ?? scripts/deploy-local.sh ????)
+frontend/dist/
+
+# local secrets
+.env
+.env.*
+!.env.example
+
+# ????????????????? Git
+data/*.db
+data/*.db-*
+data/uploads/
+
+# misc
+*.log
+.DS_Store
+
+# runtime database
+backend/db/*.db
+backend/db/*.db-*

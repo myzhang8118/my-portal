@@ -1,0 +1,9 @@
+node_modules/
+dist/
+logs/
+data/
+*.log
+*.db
+*.sqlite
+.env
+ecosystem.config.js.bak
