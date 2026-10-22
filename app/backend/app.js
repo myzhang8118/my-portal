@@ -28,6 +28,7 @@ app.use('/api/settings', require('./routes/settings'));
 app.use('/api/upload', require('./routes/upload'));
 app.use('/api/tools/music', require('./routes/tools/music'));
 app.use('/api/visits', require('./routes/visits'));
+app.use('/api/switch', require('./routes/switch'));
 
 // 健康检查
 app.get('/api/health', (req, res) => {

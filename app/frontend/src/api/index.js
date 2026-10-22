@@ -57,3 +57,7 @@ export const uploadAvatar = (file) => {
 export const trackVisit = (path, referer) => api.post('/visits/track', { path, referer })
 export const getVisits = (params) => api.get('/visits', { params })
 export const getVisitStats = () => api.get('/visits/stats')
+
+// ===== 服务开关接口（操作 /root/projects.sh）=====
+export const getSwitch = () => api.get('/switch')
+export const switchAction = (name, action) => api.post(`/switch/${name}/${action}`, {}, { timeout: 60000 })

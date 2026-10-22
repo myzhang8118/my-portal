@@ -62,6 +62,12 @@ const routes = [
         name: 'VisitMonitor',
         component: () => import('../views/admin/VisitMonitor.vue'),
         meta: { requiresAuth: true }
+      },
+      {
+        path: '/admin/server',
+        name: 'ServerSwitch',
+        component: () => import('../views/admin/ServerSwitch.vue'),
+        meta: { requiresAuth: true }
       }
     ]
   }

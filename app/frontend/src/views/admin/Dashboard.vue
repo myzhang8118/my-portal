@@ -19,6 +19,7 @@
           <router-link to="/admin/projects" class="admin-nav-item" active-class="admin-nav-item--active">项目管理 / Projects</router-link>
           <router-link to="/admin/settings" class="admin-nav-item" active-class="admin-nav-item--active">系统配置 / Settings</router-link>
           <router-link to="/admin/visits" class="admin-nav-item" active-class="admin-nav-item--active">访问监控 / Visits</router-link>
+          <router-link to="/admin/server" class="admin-nav-item" active-class="admin-nav-item--active">服务开关 / Server</router-link>
           <router-link to="/admin/password" class="admin-nav-item" active-class="admin-nav-item--active">修改密码 / Password</router-link>
         </nav>
       </aside>
@@ -29,6 +30,7 @@
           <router-link to="/admin/projects" class="mobile-nav-item" active-class="mobile-nav-item--active">项目</router-link>
           <router-link to="/admin/settings" class="mobile-nav-item" active-class="mobile-nav-item--active">配置</router-link>
           <router-link to="/admin/visits" class="mobile-nav-item" active-class="mobile-nav-item--active">监控</router-link>
+          <router-link to="/admin/server" class="mobile-nav-item" active-class="mobile-nav-item--active">开关</router-link>
           <router-link to="/admin/password" class="mobile-nav-item" active-class="mobile-nav-item--active">密码</router-link>
         </nav>
         <section class="admin-main-panel card">
